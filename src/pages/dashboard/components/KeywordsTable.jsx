@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import {
+  Box,
   Checkbox,
   IconButton,
   Table,
@@ -10,31 +11,38 @@ import {
   TableRow,
   Paper,
   Typography,
-  Box,
 } from "@mui/material";
-import CheckedIcon from '../../../checkbox_icons/checked.png';
-import UnCheckedIcon from '../../../checkbox_icons/unchecked.png';
+// import CheckedIcon from '../../../checkbox_icons/checked.png';
+// import UnCheckedIcon from '../../../checkbox_icons/unchecked.png';
 
-import ArrowUpwardIcon from "@mui/icons-material/ArrowUpward";
-import ArrowDownwardIcon from "@mui/icons-material/ArrowDownward";
-import  SortIcon from "../../../checkbox_icons/sort_icon.png"
-const KeywordsTable = ({ keywords, onCheckboxChange, title, setKeywords }) => {
-  const [sortDirection, setSortDirection] = useState("asc");
+// import ArrowUpwardIcon from "@mui/icons-material/ArrowUpward";
+// import ArrowDownwardIcon from "@mui/icons-material/ArrowDownward";
+import SortIcon from "../../../checkbox_icons/sort_icon.png";
+import { KeywordsEvent } from "./KeywordsEvent";
+const KeywordsTable = ({ keywords, onCheckboxChange, title, setKeywords, handleEvent }) => {
+  const [sortDirection, setSortDirection] = useState(true);
 
- const sortKeywords = () => {
-   const collator = new Intl.Collator(undefined, {
-     numeric: true,
-     sensitivity: "base",
-   });
+  const sortKeywords = (sortDirection) => {
+    const collator = new Intl.Collator(undefined, {
+      numeric: true,
+      sensitivity: "base",
+    });
+    
+    const sortedKeywords = [...keywords].sort((a, b) => {
+      return collator.compare(a.label, b.label);
+    });
 
-   const sortedKeywords = [...keywords].sort((a, b) => {
-     return collator.compare(a.label, b.label);
-   });
+    if (sortDirection) {
+      setKeywords(sortedKeywords);
+    } else {
+      setKeywords(sortedKeywords.reverse());
+    }
+  };
 
-   // Assuming this updates the state of keywords correctly
-   setKeywords(sortedKeywords);
- };
-
+  const handleSetSort = () => {
+    setSortDirection(value => !value);
+    sortKeywords(sortDirection)
+  }
 
   const checkedKeyWordsLen = keywords.filter((e) => e.isChecked).length;
 
@@ -70,7 +78,7 @@ const KeywordsTable = ({ keywords, onCheckboxChange, title, setKeywords }) => {
                 >
                   {`${checkedKeyWordsLen}/${keywords.length}`} &nbsp; {title}
                 </Typography>
-                <IconButton onClick={sortKeywords}>
+                <IconButton onClick={handleSetSort}>
                   {/* {sortDirection === "asc" ? (
                     <ArrowDownwardIcon />
                   ) : (
@@ -100,15 +108,15 @@ const KeywordsTable = ({ keywords, onCheckboxChange, title, setKeywords }) => {
                 }}
               >
                 <Typography variant="h6" color={"#9D9D9D"}>
-                  {keyword.label}
+                  <KeywordsEvent keywords={keyword.label} handleEvent={handleEvent} />
                 </Typography>
               </TableCell>
               <TableCell align="right" sx={{ width: "10%" }}>
                 <Checkbox
-                  icon={<img height={30} width={30} src={UnCheckedIcon}></img>}
-                  checkedIcon={
-                    <img height={30} width={30} src={CheckedIcon}></img>
-                  }
+                  // icon={<img height={30} width={30} src={UnCheckedIcon}></img>}
+                  // checkedIcon={
+                  //   <img height={30} width={30} src={CheckedIcon}></img>
+                  // }
                   checked={keyword.isChecked}
                   onChange={() => onCheckboxChange(keyword.id)}
                 />
