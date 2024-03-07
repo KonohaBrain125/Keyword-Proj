@@ -2,8 +2,8 @@ import React, { useState } from "react";
 import {
   Button,
   TextField,
-  Select,
-  MenuItem,
+  // Select,
+  // MenuItem,
   InputAdornment,
   Box,
   Card,
@@ -11,19 +11,19 @@ import {
   Checkbox,
 } from "@mui/material";
 
-import CheckedIcon from "../../../checkbox_icons/checked.png";
-import UnCheckedIcon from "../../../checkbox_icons/unchecked.png";
+// import CheckedIcon from "../../../checkbox_icons/checked.png";
+// import UnCheckedIcon from "../../../checkbox_icons/unchecked.png";
 
 import SearchIcon from "@mui/icons-material/Search";
-import LocationOnIcon from "@mui/icons-material/LocationOn";
+// import LocationOnIcon from "@mui/icons-material/LocationOn";
 import LocationDropDown from "./LocationSelect";
 import { blueGrey, grey } from "@mui/material/colors";
 import ServiceButton from "./ServiceButton";
-import  checked  from "../../../checkbox_icons/checked.png";
+// import  checked  from "../../../checkbox_icons/checked.png";
 const SearchWebsites = () => {
   const [selectedService, setSelectedService] = useState("GOOGLE");
   const [keywords, setKeywords] = useState("");
-  const [location, setLocation] = useState("");
+  // const [location, setLocation] = useState("");
   const [checkBox, setChecked] = useState(true);
 
 const setCheckBox=()=>{
@@ -38,9 +38,9 @@ setChecked(!checkBox)
     setKeywords(event.target.value);
   };
 
-  const handleLocationChange = (event) => {
-    setLocation(event.target.value);
-  };
+  // const handleLocationChange = (event) => {
+  //   setLocation(event.target.value);
+  // };
 
   const search = () => {
     // Perform the search logic based on the selectedService, keywords, and location
@@ -111,6 +111,10 @@ setChecked(!checkBox)
             type="search"
             placeholder="Keywords"
             sx={{
+              minWidth: "35%",
+              bgcolor: "white",
+              borderRadius: "50px",
+              overflow: "hidden",
               "& .MuiOutlinedInput-root": {
                 "& fieldset": {
                   borderColor: "white",
@@ -154,8 +158,6 @@ setChecked(!checkBox)
         </Box>
         <Box display={"flex"} justifyContent="center" alignItems="center">
           <Checkbox
-            icon={<img height={30} width={30} src={UnCheckedIcon}></img>}
-            checkedIcon={<img height={30} width={30} src={CheckedIcon}></img>}
             checked={checkBox}
             onChange={setCheckBox}
           />

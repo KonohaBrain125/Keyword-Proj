@@ -36,6 +36,16 @@ const KeywordsManager = () => {
     ]);
   };
 
+  const handlePositiveEvent = (word) => () => {
+    const ids = positiveKeywords.filter((keyword) => keyword.label.indexOf(word) !== -1).map((res) => res.id);
+    ids.forEach((id) => moveKeyword(setPositiveKeywords, setNegativeKeywords, id));
+  }
+
+  const handleNagativeEvent = (word) => () => {
+    const ids = negativeKeywords.filter((keyword) => keyword.label.indexOf(word) !== -1).map((res) => res.id);
+    ids.forEach((id) => moveKeyword(setNegativeKeywords, setPositiveKeywords, id));
+  }
+
   const moveKeyword = (sourceSetKeywords, targetSetKeywords, id) => {
     recordAction(); // Record state before making changes
 
@@ -177,6 +187,7 @@ const KeywordsManager = () => {
           }
           setKeywords={setPositiveKeywords}
           title="Positive Keywords"
+          handleEvent={handlePositiveEvent}
         />
         <KeywordsTable
           keywords={negativeKeywords}
@@ -185,6 +196,7 @@ const KeywordsManager = () => {
             moveKeyword(setNegativeKeywords, setPositiveKeywords, id)
           }
           title="Negative Keywords"
+          handleEvent={handleNagativeEvent}
         />
       </Box>
     </div>
